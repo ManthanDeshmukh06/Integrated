@@ -59,7 +59,7 @@ export default function DoctorTopBar({ sidebarOpen, setSidebarOpen, user }) {
           <div className="flex items-center gap-4">
             <button
               onClick={() => setSidebarOpen(!sidebarOpen)}
-              className="p-2.5 rounded-xl bg-white shadow-sm border border-gray-200 hover:shadow-md transition-all duration-200 text-gray-600 hover:text-green-600"
+              className="p-2.5 rounded-xl bg-white shadow-sm border border-gray-200 hover:shadow-md transition-all duration-200 text-gray-600 hover:text-blue-600"
             >
               <i className="bi bi-list text-xl"></i>
             </button>
@@ -101,9 +101,9 @@ export default function DoctorTopBar({ sidebarOpen, setSidebarOpen, user }) {
               <input
                 type="text"
                 placeholder="Search patients, conditions, medications..."
-                className="w-full px-6 py-3 rounded-2xl border border-gray-300 bg-white/80 backdrop-blur-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-300 group-hover:shadow-md"
+                className="w-full px-6 py-3 rounded-2xl border border-gray-300 bg-white/80 backdrop-blur-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 group-hover:shadow-md"
               />
-              <span className="absolute right-4 top-3 text-gray-400 group-focus-within:text-green-600 transition-colors duration-300">
+              <span className="absolute right-4 top-3 text-gray-400 group-focus-within:text-blue-600 transition-colors duration-300">
                 <i className="bi bi-search text-lg"></i>
               </span>
             </div>
@@ -129,11 +129,11 @@ export default function DoctorTopBar({ sidebarOpen, setSidebarOpen, user }) {
             <div className="relative">
               <button
                 onClick={() => setShowNotifications(!showNotifications)}
-                className="relative p-2.5 rounded-xl bg-white/60 backdrop-blur-sm border border-gray-200/60 text-gray-600 hover:text-green-600 hover:shadow-md transition-all duration-200"
+                className="relative p-2.5 rounded-xl bg-white/60 backdrop-blur-sm border border-gray-200/60 text-gray-600 hover:text-blue-600 hover:shadow-md transition-all duration-200"
               >
                 <i className="bi bi-bell text-xl"></i>
                 {unreadCount > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-green-500 text-white text-xs px-1.5 py-0.5 rounded-full font-medium">
+                  <span className="absolute -top-1 -right-1 bg-blue-500 text-white text-xs px-1.5 py-0.5 rounded-full font-medium">
                     {unreadCount}
                   </span>
                 )}
@@ -147,7 +147,7 @@ export default function DoctorTopBar({ sidebarOpen, setSidebarOpen, user }) {
                       <h3 className="font-semibold text-gray-800">
                         Notifications
                       </h3>
-                      <span className="text-xs text-green-600 bg-green-50 px-2 py-1 rounded-full">
+                      <span className="text-xs text-blue-600 bg-blue-50 px-2 py-1 rounded-full">
                         {unreadCount} unread
                       </span>
                     </div>
@@ -167,7 +167,7 @@ export default function DoctorTopBar({ sidebarOpen, setSidebarOpen, user }) {
                                 ? "bg-red-100 text-red-600"
                                 : notification.type === "appointment"
                                 ? "bg-blue-100 text-blue-600"
-                                : "bg-green-100 text-green-600"
+                                : "bg-blue-100 text-blue-600"
                             }`}
                           >
                             <i
@@ -196,7 +196,7 @@ export default function DoctorTopBar({ sidebarOpen, setSidebarOpen, user }) {
                     ))}
                   </div>
                   <div className="p-3 border-t border-gray-200">
-                    <button className="w-full text-center text-sm text-green-600 hover:text-green-700 font-medium">
+                    <button className="w-full text-center text-sm text-blue-600 hover:text-blue-700 font-medium">
                       View All Notifications
                     </button>
                   </div>
@@ -210,7 +210,7 @@ export default function DoctorTopBar({ sidebarOpen, setSidebarOpen, user }) {
                 onClick={() => setShowProfileMenu(!showProfileMenu)}
                 className="flex items-center gap-3 bg-white/80 backdrop-blur-sm px-4 py-2.5 rounded-2xl shadow-sm hover:shadow-md border border-gray-200/60 transition-all duration-200"
               >
-                <div className="w-8 h-8 bg-gradient-to-br from-green-500 to-green-600 rounded-full flex items-center justify-center shadow-lg">
+                <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center shadow-lg">
                   <span className="text-white font-semibold text-sm">
                     {initials}
                   </span>
@@ -234,7 +234,7 @@ export default function DoctorTopBar({ sidebarOpen, setSidebarOpen, user }) {
                       Dr. {displayName}
                     </p>
                     <p className="text-sm text-gray-500">{user?.email || ""}</p>
-                    <p className="text-xs text-green-600 font-medium mt-1">
+                    <p className="text-xs text-blue-600 font-medium mt-1">
                       ● Online
                     </p>
                   </div>

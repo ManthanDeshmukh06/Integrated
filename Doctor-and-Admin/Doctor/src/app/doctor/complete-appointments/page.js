@@ -28,17 +28,25 @@ export default function CompleteAppointmentPage() {
   }, []);
 
   const fetchPatientData = async (patientId) => {
-    try {
-      const res = await fetch(`http://localhost:3000/patients/${patientId}`);
-      if (!res.ok) throw new Error("Failed to fetch patient data");
-      const result = await res.json();
-      console.log("Fetched Patient Data:", result.data);
-      setPatientData(result.data || null);
-    } catch (err) {
-      console.error("Error fetching patient data:", err);
+  try {
+    const res = await fetch(`http://localhost:3000/patients/${patientId}`);
+    const result = await res.json();
+
+    // If API returns success: false (like "Patient not found"), handle quietly
+    if (!res.ok || result.success === false) {
       setPatientData(null);
+      return; // no error thrown or logged
     }
-  };
+
+    console.log("Fetched Patient Data:", result.data);
+    setPatientData(result.data || null);
+  } catch (err) {
+    // Catch only actual network or parsing errors silently
+    console.error("Error fetching patient data:", err.message);
+    setPatientData(null);
+  }
+};
+
 
   const fetchPatientDocuments = async (patientId) => {
     try {
@@ -116,7 +124,7 @@ export default function CompleteAppointmentPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-screen">
-        <div className="w-8 h-8 border-4 border-green-600 border-t-transparent rounded-full animate-spin"></div>
+        <div className="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
       </div>
     );
   }
@@ -127,7 +135,7 @@ export default function CompleteAppointmentPage() {
         <p className="text-lg mb-3">No appointment selected.</p>
         <button
           onClick={() => router.push("/doctor/appointments")}
-          className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition"
+          className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
         >
           Back to Appointments
         </button>
@@ -175,7 +183,7 @@ export default function CompleteAppointmentPage() {
                 router.push("/doctor/prescriptions");
               }
             }}
-            className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition"
+            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition"
           >
             Create Prescription
           </button>

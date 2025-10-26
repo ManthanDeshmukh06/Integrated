@@ -119,7 +119,7 @@ export default function PatientsPage() {
                 Manage and view all your patient records and medical history
               </p>
             </div>
-            {/*  <button className="mt-4 lg:mt-0 bg-green-600 text-white px-6 py-3 rounded-xl hover:bg-green-700 transition-colors font-medium flex items-center gap-2">
+            {/*  <button className="mt-4 lg:mt-0 bg-blue-600 text-white px-6 py-3 rounded-xl hover:bg-blue-700 transition-colors font-medium flex items-center gap-2">
                 <i className="bi bi-plus-lg"></i>
                 Add New Patient
               </button> */}
@@ -135,7 +135,7 @@ export default function PatientsPage() {
             <div className="text-sm text-gray-500">Total Patients</div>
           </div>
           <div className="bg-white rounded-2xl p-4 shadow-sm border border-gray-200">
-            <div className="text-2xl font-bold text-green-600">
+            <div className="text-2xl font-bold text-blue-600">
               {patients.filter((p) => p.status === "active").length}
             </div>
             <div className="text-sm text-gray-500">Active Patients</div>
@@ -169,7 +169,7 @@ export default function PatientsPage() {
                   placeholder="Search patients by name, ID, or condition..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full px-4 py-3 pl-10 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                  className="w-full px-4 py-3 pl-10 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
                 <i className="bi bi-search absolute left-3 top-3.5 text-gray-400"></i>
               </div>
@@ -182,7 +182,7 @@ export default function PatientsPage() {
                   onClick={() => setView("grid")}
                   className={`p-2 rounded-md transition-colors ${
                     view === "grid"
-                      ? "bg-white shadow-sm text-green-600"
+                      ? "bg-white shadow-sm text-blue-600"
                       : "text-gray-500"
                   }`}
                 >
@@ -192,7 +192,7 @@ export default function PatientsPage() {
                   onClick={() => setView("list")}
                   className={`p-2 rounded-md transition-colors ${
                     view === "list"
-                      ? "bg-white shadow-sm text-green-600"
+                      ? "bg-white shadow-sm text-blue-600"
                       : "text-gray-500"
                   }`}
                 >
@@ -204,7 +204,7 @@ export default function PatientsPage() {
               <select
                 value={statusFilter}
                 onChange={(e) => setStatusFilter(e.target.value)}
-                className="px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                className="px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               >
                 <option value="all">All Status</option>
                 <option value="active">Active</option>
@@ -300,8 +300,8 @@ function PatientCard({ patient, onView, onConsult, onPrescribe }) {
       <div className="p-4 border-b border-gray-200">
         <div className="flex items-center justify-between mb-2">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
-              <i className="bi bi-person text-green-600 text-xl"></i>
+            <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
+              <i className="bi bi-person text-blue-600 text-xl"></i>
             </div>
             <div>
               <h3 className="font-semibold text-gray-800">{patient.name}</h3>
@@ -323,7 +323,7 @@ function PatientCard({ patient, onView, onConsult, onPrescribe }) {
           <span
             className={`px-2 py-1 rounded-full text-xs font-medium ${
               patient.status === "active"
-                ? "bg-green-100 text-green-700"
+                ? "bg-blue-100 text-blue-700"
                 : "bg-gray-100 text-gray-700"
             }`}
           >
@@ -367,7 +367,7 @@ function PatientCard({ patient, onView, onConsult, onPrescribe }) {
           </button>
           <button
             onClick={() => onConsult(patient.id)}
-            className="flex-1 bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition-colors text-sm font-medium"
+            className="flex-1 bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium"
           >
             Consult
           </button>
@@ -390,8 +390,8 @@ function PatientRow({ patient, onView, onConsult, onPrescribe }) {
     <tr className="hover:bg-gray-50 transition-colors">
       <td className="px-6 py-4 whitespace-nowrap">
         <div className="flex items-center">
-          <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center mr-3">
-            <i className="bi bi-person text-green-600"></i>
+          <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center mr-3">
+            <i className="bi bi-person text-blue-600"></i>
           </div>
           <div>
             <div className="font-medium text-gray-900">{patient.name}</div>
@@ -441,7 +441,7 @@ function PatientRow({ patient, onView, onConsult, onPrescribe }) {
         <span
           className={`px-2 py-1 rounded-full text-xs font-medium ${
             patient.status === "active"
-              ? "bg-green-100 text-green-700"
+              ? "bg-blue-100 text-blue-700"
               : "bg-gray-100 text-gray-700"
           }`}
         >
@@ -471,7 +471,7 @@ function PatientRow({ patient, onView, onConsult, onPrescribe }) {
           </button>
           <button
             onClick={() => onConsult(patient.id)}
-            className="text-green-600 hover:text-green-800 transition-colors"
+            className="text-blue-600 hover:text-blue-800 transition-colors"
             title="Start Consultation"
           >
             <i className="bi bi-chat-dots"></i>
@@ -513,8 +513,8 @@ function PatientDetailModal({ patient, onClose, onConsult, onPrescribe }) {
             {/* Patient Info */}
             <div className="lg:col-span-1">
               <div className="bg-gray-50 rounded-xl p-6 text-center">
-                <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <i className="bi bi-person text-green-600 text-3xl"></i>
+                <div className="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <i className="bi bi-person text-blue-600 text-3xl"></i>
                 </div>
                 <h3 className="text-xl font-bold text-gray-800">
                   {patient.name}
@@ -644,7 +644,7 @@ function PatientDetailModal({ patient, onClose, onConsult, onPrescribe }) {
             </button>
             <button
               onClick={() => onConsult(patient.id)}
-              className="px-6 py-3 bg-green-600 text-white rounded-xl hover:bg-green-700 transition-colors font-medium flex items-center gap-2"
+              className="px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-colors font-medium flex items-center gap-2"
             >
               <i className="bi bi-chat-dots"></i>
               Start Consultation
