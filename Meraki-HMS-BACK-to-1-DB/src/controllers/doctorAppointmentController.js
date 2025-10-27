@@ -12,23 +12,10 @@ exports.getDoctorAppointmentsById = async (req, res) => {
     const doctor = await Doctor.findById(doctorId);
     if (!doctor) return res.status(404).json({ message: "Doctor not found" });
     if (doctor.hospital_id !== hospitalId)
-      return res
-        .status(400)
-        .json({ message: "Doctor does not belong to this hospital" });
+      return res.status(400).json({ message: "Doctor does not belong to this hospital" });
 
-    const appointments = await Appointment.find({
-      doctorId,
-      hospitalId,
-      status: { $ne: "Cancelled" },
-      is_prescription: { $ne: true },
-    }).sort({ date: 1, slotStart: 1 });
-
-    res.json({
-      doctorId,
-      hospitalId,
-      total: appointments.length,
-      appointments,
-    });
+    const appointments = await Appointment.find({ doctorId, hospitalId }).sort({ date: 1, slotStart: 1 });
+    res.json({ doctorId, hospitalId, total: appointments.length, appointments });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

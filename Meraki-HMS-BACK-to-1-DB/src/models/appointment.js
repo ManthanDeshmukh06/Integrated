@@ -20,7 +20,8 @@ const appointmentSchema = new mongoose.Schema({
   slotDuration: { type: Number, default: 30 },
 
   // 🆕 Add this
-  is_prescription: { type: Boolean, default: false }
+  is_prescription: { type: Boolean, default: false },
+  is_completed: { type: Boolean, default: false }
 });
 
 // index for conflict detection

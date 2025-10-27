@@ -18,6 +18,5 @@ router.put("/profile/:id", isLoggedIn , updatePatientProfile);
 router.post("/profile/upload-profile", uploadProfileImage);
 router.post("/reset-password", resetPassword);
 // ✅ New Route — get patient details by ID
-router.get("/:patientId", getPatientById);
-
+router.get("/:patientId", isLoggedIn, getPatientById);
 module.exports = router;

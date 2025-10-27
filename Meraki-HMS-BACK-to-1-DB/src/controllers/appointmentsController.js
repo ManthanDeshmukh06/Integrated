@@ -621,3 +621,27 @@ exports.getAppointmentsByHospitalDoctorAndDateWithPrescription = async (req, res
     res.status(500).json({ message: error.message });
   }
 };
+
+// ✅ Mark appointment as completed
+exports.markAppointmentCompleted = async (req, res) => {
+  try {
+    const { appointmentId } = req.params;
+
+    const appointment = await Appointment.findById(appointmentId);
+    if (!appointment) {
+      return res.status(404).json({ message: "Appointment not found" });
+    }
+
+    // Mark as completed
+    appointment.is_completed = true;
+    appointment.status = "Completed"; // optional but makes sense logically
+    await appointment.save();
+
+    res.status(200).json({
+      message: "Appointment marked as completed successfully",
+      appointment,
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};

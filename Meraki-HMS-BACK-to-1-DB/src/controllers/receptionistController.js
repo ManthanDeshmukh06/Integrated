@@ -2,7 +2,7 @@ const Receptionist = require("../models/Receptionist");
 const generateToken = require("../utils/generateToken");
 const Hospital = require("../models/Hospital");
 const Otp = require("../models/Otp");
-
+const Doctor = require("../models/Doctor");
 const { sendReceptionistCredentialsEmail } = require("../utils/email");
 
 // 📌 Register Receptionist
@@ -130,6 +130,36 @@ exports.resetPassword = async (req, res) => {
     console.error("Reset password error:", error);
     return res.status(500).json({
       message: "Server error",
+      error: error.message,
+    });
+  }
+};
+
+// 📌 Get all doctors by hospital ID
+exports.getDoctorsByHospital = async (req, res) => {
+  try {
+    const { hospitalId } = req.params;
+
+    if (!hospitalId) {
+      return res.status(400).json({ message: "hospitalId is required" });
+    }
+
+    const doctors = await Doctor.find({ hospital_id: hospitalId })
+      .select("doctor_id name email specialization contact isAvailable");
+
+    if (!doctors || doctors.length === 0) {
+      return res.status(404).json({ message: "No doctors found for this hospital" });
+    }
+
+    res.status(200).json({
+      success: true,
+      hospitalId,
+      total: doctors.length,
+      doctors,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Error fetching doctors",
       error: error.message,
     });
   }

@@ -91,7 +91,7 @@ export default function UpcomingAppointments({ appointments = [], onHandwritten 
                 <th className="py-2 px-3 border-b">Patient</th>
                 <th className="py-2 px-3 border-b">Type</th>
                 <th className="py-2 px-3 border-b">Session</th>
-                <th className="py-2 px-3 border-b">Reason</th>
+                {/* <th className="py-2 px-3 border-b">Reason</th> */}
                 <th className="py-2 px-3 border-b">Status</th>
                 <th className="py-2 px-3 border-b text-center">Action</th>
               </tr>
@@ -107,7 +107,7 @@ export default function UpcomingAppointments({ appointments = [], onHandwritten 
                   <td className="py-2 px-3 border-b">{app.patientName || "N/A"}</td>
                   <td className="py-2 px-3 border-b">{app.appointmentType || "Manual"}</td>
                   <td className="py-2 px-3 border-b">{app.sessionType || "N/A"}</td>
-                  <td className="py-2 px-3 border-b">{app.reason || "N/A"}</td>
+                  {/* <td className="py-2 px-3 border-b">{app.reason || "N/A"}</td> */}
                   <td className="py-2 px-3 border-b capitalize">{app.status || "Scheduled"}</td>
                   <td className="py-2 px-3 border-b text-center">
                     <button

@@ -3,6 +3,8 @@ const jwt = require("jsonwebtoken");
 const Otp = require("../models/Otp");
 const multer = require("multer");
 const cloudinary = require("../config/cloudinary");
+const ReceptionistPatient = require("../models/receptionist_patient"); // new import
+
 
 
 // Multer in-memory storage
@@ -302,15 +304,25 @@ exports.getPatientById = async (req, res) => {
   try {
     const { patientId } = req.params;
 
-    const patient = await Patient.findById(patientId);
+    // 1️⃣ Try to find in 'patients' collection first
+    let patient = await Patient.findById(patientId);
 
+    // 2️⃣ If not found, try 'receptionist_patients' collection
     if (!patient) {
-      return res.status(404).json({ success: false, message: "Patient not found" });
+      patient = await ReceptionistPatient.findById(patientId);
     }
 
+    // 3️⃣ If still not found, return 404
+    if (!patient) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Patient not found in any collection" });
+    }
+
+    // 4️⃣ If found, return success
     res.status(200).json({
       success: true,
-      data: patient
+      data: patient,
     });
   } catch (error) {
     console.error("Error fetching patient details:", error);

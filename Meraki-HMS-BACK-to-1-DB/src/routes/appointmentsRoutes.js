@@ -39,6 +39,7 @@ router.put("/:appointmentId/cancel", isLoggedIn, appointmentsController.cancelAp
 router.put("/:appointmentId/reschedule", isLoggedIn, appointmentsController.rescheduleAppointment);
 // Get doctor availability (raw, as receptionist input)
 router.get("/availability/raw/:doctorId/:date",isLoggedIn, appointmentsController.getDoctorAvailability);
+router.put( "/:appointmentId/complete",isLoggedIn, appointmentsController.markAppointmentCompleted );
 
 
 // Receptionist: view appointments with prescriptions

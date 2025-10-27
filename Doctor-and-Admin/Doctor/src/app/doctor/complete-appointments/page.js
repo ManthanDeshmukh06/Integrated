@@ -28,25 +28,29 @@ export default function CompleteAppointmentPage() {
   }, []);
 
   const fetchPatientData = async (patientId) => {
-  try {
-    const res = await fetch(`http://localhost:3000/patients/${patientId}`);
-    const result = await res.json();
+    try {
+      const res = await fetch(`http://localhost:3000/patients/${patientId}`);
 
-    // If API returns success: false (like "Patient not found"), handle quietly
-    if (!res.ok || result.success === false) {
+      if (res.status === 404) {
+        console.warn(`Patient not found (404): ${patientId}`);
+        setPatientData(null);
+        return;
+      }
+
+      if (!res.ok) {
+        console.warn(`Failed to fetch patient data. Status: ${res.status}`);
+        setPatientData(null);
+        return;
+      }
+
+      const result = await res.json();
+      console.log("Fetched Patient Data:", result.data);
+      setPatientData(result.data || null);
+    } catch (err) {
+      console.error("Network error fetching patient data:", err.message);
       setPatientData(null);
-      return; // no error thrown or logged
     }
-
-    console.log("Fetched Patient Data:", result.data);
-    setPatientData(result.data || null);
-  } catch (err) {
-    // Catch only actual network or parsing errors silently
-    console.error("Error fetching patient data:", err.message);
-    setPatientData(null);
-  }
-};
-
+  };
 
   const fetchPatientDocuments = async (patientId) => {
     try {
@@ -61,15 +65,19 @@ export default function CompleteAppointmentPage() {
         }
       );
 
+      if (res.status === 404) {
+        console.warn(`No uploads found for patient ${patientId}`);
+        setPatientDocuments([]);
+        return;
+      }
+
       if (!res.ok) {
-        console.warn("No patient documents found or failed to fetch");
+        console.warn(`Failed to fetch documents. Status: ${res.status}`);
         setPatientDocuments([]);
         return;
       }
 
       const data = await res.json();
-      console.log("Fetched Patient Documents:", data.uploads);
-
       const allFiles = (data.uploads || []).flatMap((upload) =>
         (upload.files || []).map((file) => ({
           url: file.file_url,
@@ -81,7 +89,7 @@ export default function CompleteAppointmentPage() {
 
       setPatientDocuments(allFiles);
     } catch (err) {
-      console.error("Error fetching patient documents:", err);
+      console.error("Network error fetching patient documents:", err.message);
       setPatientDocuments([]);
     } finally {
       setLoading(false);
@@ -91,11 +99,8 @@ export default function CompleteAppointmentPage() {
   const fetchPatientRecords = async (patientId) => {
     try {
       const user = JSON.parse(localStorage.getItem("hmsUser"));
-      const doctorId = user?.doctorid; // use doctorid
+      const doctorId = user?.doctorid;
       const token = user?.token;
-
-      console.log("Doctor ID:", doctorId);
-      console.log("Patient ID:", patientId);
 
       if (!doctorId || !token) return;
 
@@ -109,14 +114,23 @@ export default function CompleteAppointmentPage() {
         }
       );
 
-      console.log("Fetch response status:", res.status);
-      if (!res.ok) throw new Error(`HTTP error! Status: ${res.status}`);
+      if (res.status === 404) {
+        console.warn(`No past records found for patient ${patientId}`);
+        setPatientRecords([]);
+        return;
+      }
+
+      if (!res.ok) {
+        console.warn(`Failed to fetch records. Status: ${res.status}`);
+        setPatientRecords([]);
+        return;
+      }
 
       const data = await res.json();
       console.log("Fetched Patient Records:", data.records);
       setPatientRecords(data.records || []);
     } catch (err) {
-      console.error("Error fetching patient records:", err);
+      console.error("Network error fetching patient records:", err.message);
       setPatientRecords([]);
     }
   };
@@ -168,20 +182,27 @@ export default function CompleteAppointmentPage() {
           {/* Create Prescription Button */}
           <button
             onClick={() => {
-              if (patientData && appointmentData) {
-                localStorage.setItem(
-                  "prescriptionContext",
-                  JSON.stringify({
-                    patientId: patientData._id, // match handleSubmit key
-                    appointmentId: appointmentData.id,  // add appointment ID
-                    patientName: patientData.name,
-                    patientEmail: patientData.email,
-                  })
-                );
-                // optional: persist active tab
-                localStorage.setItem("prescriptionTab", "new");
-                router.push("/doctor/prescriptions");
-              }
+              // Combine name fields safely
+              const fullName =
+                patientData?.name ||
+                `${patientData?.firstName || ""} ${
+                  patientData?.lastName || ""
+                }`.trim();
+
+              localStorage.setItem(
+                "prescriptionContext",
+                JSON.stringify({
+                  patientId: patientData?._id || "", // fallback if undefined
+                  appointmentId:
+                    appointmentData?.id || appointmentData?._id || "", // handle both id and _id
+                  patientName: fullName || "N/A",
+                  patientEmail: patientData?.email || "",
+                })
+              );
+
+              // persist tab and redirect
+              localStorage.setItem("prescriptionTab", "new");
+              router.push("/doctor/prescriptions");
             }}
             className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition"
           >
@@ -247,7 +268,11 @@ export default function CompleteAppointmentPage() {
                   <tr className="bg-gray-50">
                     <td className="p-3 font-medium w-1/4 border-b">Name</td>
                     <td className="p-3 border-b">
-                      {patientData.name || "N/A"}
+                      {patientData.name ||
+                        `${patientData.firstName || ""} ${
+                          patientData.lastName || ""
+                        }`.trim() ||
+                        "N/A"}
                     </td>
                   </tr>
                   <tr>
